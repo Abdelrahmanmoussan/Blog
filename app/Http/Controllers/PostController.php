@@ -81,7 +81,7 @@ class PostController extends Controller
 
         $post->save();
 
-        $request->session()->flash('status','Post was successfully created!');
+        session()->flash('status','Post was successfully created!');
 
         return to_route('posts.index',compact('posts'));
             // return back()->with('success', 'Post deleted successfully');
