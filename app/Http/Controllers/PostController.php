@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Models\Post;
 use App\Models\User;
 
@@ -52,12 +54,25 @@ class PostController extends Controller
     }
 
 
-    public function store(Request $request, Post $posts){
+    public function store(Request $request, Post $posts, User $users){
 
         $request->validate([
-            'title' => 'required|min:3',
-            'description' => 'required|min:3',
+
+            'title' => [
+                'required',
+                'unique:App\Models\Post,title',
+                'unique:posts,title',
+                'unique:connection.posts,title',
+                Rule::unique('posts')->ignore($posts->title),
+            ],
+
+            'description' =>
+            'required',
+            'min:3',
+
         ]);
+
+
 
         $user=auth()->user();
 
