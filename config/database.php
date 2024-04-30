@@ -35,6 +35,15 @@ return [
 
     'connections' => [
 
+        'my_connection' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'my_database'),
+            'username' => env('DB_USERNAME', 'my_username'),
+            'password' => env('DB_PASSWORD', 'my_password'),
+        ],
+        
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+// use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rule as ValidationRule;
 use App\Models\Post;
 use App\Models\User;
 
@@ -57,13 +58,12 @@ class PostController extends Controller
     public function store(Request $request, Post $posts, User $users){
 
         $request->validate([
-
             'title' => [
                 'required',
                 'unique:App\Models\Post,title',
                 'unique:posts,title',
-                'unique:connection.posts,title',
-                Rule::unique('posts')->ignore($posts->title),
+                'unique:my_connection.posts,title', // specify the connection name
+                ValidationRule::unique('my_connection.posts', 'title')->ignore($posts->title), // use the ignore method
             ],
 
             'description' =>
@@ -73,31 +73,23 @@ class PostController extends Controller
         ]);
 
 
-
         $user=auth()->user();
 
         $userid=$user->id;
-
         $username=$user->name;
-
         $email=$user->email;
 
         $post = new Post;
 
         $post->title = $request->title;
-
         $post->description = $request->description;
-
         $post->user_id =$userid;
-
         $post->name =$username;
-
         $post->email =$email;
 
         $post->save();
 
         session()->flash('status','Post was successfully created!');
-
         return to_route('posts.index',compact('posts'));
             // return back()->with('success', 'Post deleted successfully');
 
