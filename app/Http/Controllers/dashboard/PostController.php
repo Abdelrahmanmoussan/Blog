@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule as ValidationRule;
 use App\Models\Post;
 use App\Models\User;
 
@@ -50,10 +51,19 @@ class PostController extends Controller
     public function store(Request $request, Post $posts){
 
         $request->validate([
-            'title' => 'required|min:3',
-            'description' => 'required|min:3',
-        ]);
+            'title' => [
+                'required',
+                'unique:App\Models\Post,title',
+                'unique:posts,title',
+                'unique:my_connection.posts,title',
+                ValidationRule::unique('my_connection.posts', 'title')->ignore($posts->title),
+            ],
 
+            'description' =>
+            'required',
+            'min:3',
+
+        ]);
         $user=auth()->user();
 
         $userid=$user->id;

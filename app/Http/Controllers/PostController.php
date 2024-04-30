@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-// use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rule as ValidationRule;
 use App\Models\Post;
 use App\Models\User;
@@ -62,8 +60,8 @@ class PostController extends Controller
                 'required',
                 'unique:App\Models\Post,title',
                 'unique:posts,title',
-                'unique:my_connection.posts,title', // specify the connection name
-                ValidationRule::unique('my_connection.posts', 'title')->ignore($posts->title), // use the ignore method
+                'unique:my_connection.posts,title',
+                ValidationRule::unique('my_connection.posts', 'title')->ignore($posts->title),
             ],
 
             'description' =>
