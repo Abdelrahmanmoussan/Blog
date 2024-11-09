@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\dashboard\PostController;
 use App\Http\Controllers\dashboard\ProfileController;
-
-
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,33 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth')->group(function () {
+// Route::post('login', [AuthController::class, 'login'])->name('api.login');
 
-    Route::get('dashboard', [PostController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-
-    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-
-
-
-    Route::delete('posts/{posts}', [PostController::class, 'destroy'])->name('posts.destroy');
-
-
-    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::post('login', function(){
+    return 1234;
 });
-
-Route::get('/', [PostController::class, 'guest'])->name('guest');
-Route::get('/posts/{posts}', [PostController::class, 'show'])->name('posts.show');
-
-
-
-
-require __DIR__.'/auth.php';
-
-
-
-
 
 
 

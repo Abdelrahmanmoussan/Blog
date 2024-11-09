@@ -1,33 +1,61 @@
-## About project
+# Task Manager
 
-This project is a blog application developed using [Bootstrap 5 /Laravel 10 framework]. The primary aim of the project is to provide users with a platform to publish and manage their blog posts. The application allows users to create an account, write and publish articles, interact with other users through comments, and browse articles by category or tags.
+A simple task manager application where users can register, log in, create tasks, and manage their tasks. Guests can view tasks and leave comments but cannot edit or delete them.
 
-## as a guest
+## List the main features:
 
-you can view a page guest can you click on view button and view information about post creator, add comment and give a rate you can also register as a new user and login to the dashboard and crate a posts
+User registration and login
+Task creation with title and description
+Only task owners can edit or delete tasks
+Guests can view tasks and leave comments or reviews
 
-## Key Features:
+## installation instructions:
 
-1- User Authentication: Users can create accounts, log in, and manage their profiles.
-2- Blog Management: Registered users can create, edit, and delete their blog posts.
-3- Commenting System: Users can leave comments on blog posts and engage in discussions.
-4- Category and Tagging: Articles are categorized and tagged for easy navigation and discovery.
-5- Responsive Design: The application is designed to be responsive and accessible across various devices.
-This project serves as a practical implementation of [mention any specific concepts or technologies used]. It is suitable for developers looking to learn "about Laravel framework" or anyone interested in building a customizable blog platform.
+-   PHP >= 8.x
+-   Composer
+-   Laravel >= 10.x
+-   MySQL
 
-## Installation
+1. Clone the repository:
 
-1- Open cmd
-2- cd Downloads
-3- mkdir (name folder)
-4- cd mkdir (name folder)
-5- git clone git@github.com:Abdelrahmanmoussan/Blog.git
+    ```bash
+    git clone <your-repo-url>
+    cd <your-project-folder>
 
-## To edit and upload your edits
+    composer install
 
-1- echo "# Blog" >> README.md
-2- git init
-3- git add README.md
-4- git commit -m "first commit"
-5- git branch -M main
-6- git push -u origin main
+    ```
+
+### Database Structure
+
+-   **Users**: Stores user data, including authentication credentials.
+
+    -   `id`: Primary key
+    -   `name`: User's name
+    -   `email`: User's email
+    -   `password`: User's hashed password
+
+-   **Tasks**: Stores task details created by users.
+
+    -   `id`: Primary key
+    -   `user_id`: Foreign key referencing `Users`
+    -   `title`: Title of the task
+    -   `description`: Description of the task
+
+-   **Comments**: Stores comments and reviews on tasks.
+    -   `id`: Primary key
+    -   `task_id`: Foreign key referencing `Tasks`
+    -   `user_id`: Foreign key referencing `Users`
+    -   `comment`: Comment text
+
+### Authentication Setup
+
+The task manager application uses Laravel's built-in authentication features.
+
+To enable user authentication:
+
+1. Use `php artisan make:auth` to generate the necessary views and controllers.
+2. Register/Login allows users to create accounts and access task management features.
+3. Permissions are managed so that users can only edit/delete their tasks.
+
+For guests, they can view tasks and leave comments but cannot modify or delete any tasks.

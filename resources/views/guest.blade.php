@@ -1,4 +1,3 @@
-
 @section('title') Guest @endsection
 
 <html lang="en">
@@ -14,9 +13,10 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        <link rel="preload" as="style" href="http://127.0.0.1:8000/build/assets/app-Dw2RGVvr.css" /><link rel="modulepreload" href="http://127.0.0.1:8000/build/assets/app-BgvOogpt.js" /><link rel="stylesheet" href="http://127.0.0.1:8000/build/assets/app-Dw2RGVvr.css" /><script type="module" src="http://127.0.0.1:8000/build/assets/app-BgvOogpt.js"></script>
-
-
+        <link rel="preload" as="style" href="http://127.0.0.1:8000/build/assets/app-Dw2RGVvr.css" />
+        <link rel="modulepreload" href="http://127.0.0.1:8000/build/assets/app-BgvOogpt.js" />
+        <link rel="stylesheet" href="http://127.0.0.1:8000/build/assets/app-Dw2RGVvr.css" />
+        <script type="module" src="http://127.0.0.1:8000/build/assets/app-BgvOogpt.js"></script>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -41,23 +41,16 @@
             color: #aaa;
             cursor: pointer;
           }
-          /* .rating label:hover,
-          .rating label:hover ~ label,
-          .rating input:checked ~ label {
-            color: #ffcc00;
-          } */
         </style>
     </head>
 
-
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-
             <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter selection:bg-red-500 selection:text-white">
                 @if (Route::has('login'))
                     <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                         @auth
-                            <a href="{{route('posts.index') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
+                            <a href="{{route('tasks.index') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
                         @else
                             <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
@@ -68,88 +61,71 @@
                     </div>
                 @endif
 
-      <div >
-        <div class="container mt-5" >
-            <div class="text-center mt-3">
-                <table class="table mt-3">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Posted By</th>
-                            <th scope="col">Creeated At</th>
-                            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-
-
-
-        @foreach ($posts as $post)
-        <tr>
-            <td>{{$post->id}}</td>
-            <td>{{$post->title}}</td>
-            <td>{{$post->user->name}}</td>
-            <td>{{$post->created_at}}</td>
-            <td>
-                <a href="{{route('posts.show', $post->id)}}" type="button" class="btn btn-info">View</a>
-
-            </td>
-            {{-- <td>
-                <form action="{{ route("posts.show", ['posts' => $post->id]) }}">
-                    @csrf
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-info" style="background-color: gray; color: white; border: gray">Comment</button>
+                <div>
+                    <div class="container mt-5">
+                        <div class="text-center mt-3">
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Posted By</th>
+                                        <th scope="col">Created At</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($tasks as $task)
+                                        <tr>
+                                            <td>{{ $task->id }}</td>
+                                            <td>{{ $task->title }}</td>
+                                            <td>{{ $task->user->name }}</td>
+                                            <td>{{ $task->created_at }}</td>
+                                            <td>
+                                                <a href="{{ route('tasks.show', $task->id) }}" type="button" class="btn btn-info">View</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </form>
-            </td> --}}
+                    <div>
+                        {{ $tasks->links() }}
+                    </div>
+                </div>
 
-        </tr>
-        @endforeach
+                <script>
+                    const stars = document.querySelectorAll('.rating input');
 
-    </tbody>
-    </table>
-    </div>
-</div>
-<div>
-    {{$posts->links()}}
-</div>
+                    stars.forEach((star) => {
+                        star.addEventListener('click', function () {
+                            resetStars();
+                            const clickedStar = this.value;
+                            for (let i = 0; i < clickedStar; i++) {
+                                stars[i].checked = true;
+                                const icon = stars[i].nextElementSibling.querySelector('i');
+                                if (icon) {
+                                    icon.classList.remove('far');
+                                    icon.classList.add('fas');
+                                }
+                            }
+                        });
+                    });
 
+                    function resetStars() {
+                        stars.forEach((star) => {
+                            star.checked = false;
+                            const icon = star.nextElementSibling.querySelector('i');
+                            if (icon) {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                            }
+                        });
+                    }
+                </script>
 
-
-
-
-<script>
-    const stars = document.querySelectorAll('.rating input');
-
-    stars.forEach((star) => {
-      star.addEventListener('click', function() {
-        resetStars();
-        const clickedStar = this.value;
-        for (let i = 0; i < clickedStar; i++) {
-          stars[i].checked = true;
-          const icon = stars[i].nextElementSibling.querySelector('i');
-          if (icon) {
-            icon.classList.remove('far');
-            icon.classList.add('fas');
-          }
-        }
-      });
-    });
-
-    function resetStars() {
-      stars.forEach((star) => {
-        star.checked = false;
-        const icon = star.nextElementSibling.querySelector('i');
-        if (icon) {
-          icon.classList.remove('fas');
-          icon.classList.add('far');
-        }
-      });
-    }
-  </script>
-
-
-
-</body>
+            </div>
+        </div>
+    </body>
 </html>
