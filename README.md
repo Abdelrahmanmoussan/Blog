@@ -5,8 +5,11 @@ A simple task manager application where users can register, log in, create tasks
 ## Features
 
 User registration and login: Users can create accounts and log in to access task management features.
+
 Task creation: Users can create tasks with a title and description.
+
 Task ownership: Only task owners can edit or delete their tasks.
+
 Guest access: Guests can view tasks and leave comments or reviews but cannot modify or delete tasks.
 
 ## Prerequisites
@@ -14,8 +17,11 @@ Guest access: Guests can view tasks and leave comments or reviews but cannot mod
 Before you begin, ensure you have the following installed:
 
 PHP >= 8.x
+
 Composer
+
 Laravel >= 10.x
+
 MySQL
 
 ## Installation
@@ -44,10 +50,15 @@ php artisan key:generate
 Update the .env file with your database credentials:
 
 DB_CONNECTION=mysql
+
 DB_HOST=127.0.0.1
+
 DB_PORT=3306
+
 DB_DATABASE=task_manager
+
 DB_USERNAME=your_db_username
+
 DB_PASSWORD=your_db_password
 
 ## Run migrations:
@@ -66,22 +77,35 @@ Database Structure
 Users: Stores user data, including authentication credentials.
 
 id: Primary key
+
 name: User's name
+
 email: User's email
+
 password: User's hashed password
+
 Tasks: Stores task details created by users.
 
 id: Primary key
+
 user_id: Foreign key referencing Users
+
 title: Title of the task
+
 description: Description of the task
+
 Comments: Stores comments and reviews on tasks.
 
 id: Primary key
+
 task_id: Foreign key referencing Tasks
+
 user_id: Foreign key referencing Users
+
 comment: Comment text
-Authentication Setup
+
+## Authentication Setup
+
 This task manager application uses Laravel's built-in authentication features.
 
 To enable user authentication:
